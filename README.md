@@ -50,11 +50,13 @@ assignment/
 - `git clone https://github.com/demonzver/assignment.git`
 - `cd assignment`
 - `cp .env.example .env` 
-- edit .env
+- edit .env (GITHUB_TOKEN, etc.)
 - poetry:  `curl -sSL https://install.python-poetry.org | python3 -`
 - python install (`python3.12`)
 - installing dependencies: `poetry install`
 - install docker
 - `docker compose up -d minio` -> http://localhost:9001 (local)
 - run collector.py  
+- `sudo snap install duckdb`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 5"`
 - ...
