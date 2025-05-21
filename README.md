@@ -23,7 +23,7 @@ yet which exactly.
 
 ## Project structure
 ```text
-github-commit-pipeline/
+assignment/
 │
 ├── .gitignore
 ├── .env.example
@@ -33,6 +33,7 @@ github-commit-pipeline/
 │
 ├── src/
 │   └── github_commit_pipeline/
+│       ├── __init__.py         
 │       ├── schema.py           # DuckDB DDL
 │       ├── storage.py          # MinIO helpers
 │       ├── collector.py        # fetch commits
