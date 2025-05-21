@@ -54,5 +54,6 @@ assignment/
 - poetry:  `curl -sSL https://install.python-poetry.org | python3 -`
 - python install (`python3.12`)
 - installing dependencies: `poetry install`
+- install docker
 - run collector.py  
 - ...

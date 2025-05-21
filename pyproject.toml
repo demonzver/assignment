@@ -1,10 +1,12 @@
+[tool.poetry]
+name = "assignment"
+version = "0.1.0"
+packages = [{ include = "github_commit_pipeline", from = "src" }]
+
 [tool.poetry.dependencies]
-python         = "^3.10"
-PyGithub       = "^2.3"
-minio          = "^7.2"
-pandas         = "^2.2"
-sqlalchemy     = "^2.0"
-duckdb         = "^0.10"
-duckdb-engine  = "^0.10"
-python-dotenv  = "^1.0"
-tqdm           = "^4.66"
+python        = "^3.12"
+PyGithub      = "^2.3"   # GitHub API
+minio         = "^7.2"   # S3-like storage
+sqlalchemy    = "^2.0"
+duckdb-engine = "^0.10"
+python-dotenv = "^1.0"
