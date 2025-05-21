@@ -5,7 +5,7 @@ from sqlalchemy import (
 
 metadata = MetaData()
 
-# ── Commits (repo-level) ───────────────────────────────────────────────────────
+# Commits (repo-level)
 commits = Table(
     "commits",
     metadata,
@@ -20,13 +20,12 @@ commits = Table(
     Column("lines_removed",    Integer),
 )
 
-# ── Files (per-file diff) ──────────────────────────────────────────────────────
+# Files (per-file diff)
 commit_files = Table(
     "commit_files",
     metadata,
-    # составной PK → никаких AUTO INCREMENT
     Column("commit_hash",   String, ForeignKey("commits.commit_hash"), primary_key=True),
-    Column("file_path",     String, primary_key=True),   # второй ключ
+    Column("file_path",     String, primary_key=True),
     Column("file_extension",String),
     Column("change_type",   String),     # added | modified | removed | renamed
     Column("lines_added",   Integer),
