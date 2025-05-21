@@ -1,0 +1,10 @@
+[tool.poetry.dependencies]
+python         = "^3.10"
+PyGithub       = "^2.3"
+minio          = "^7.2"
+pandas         = "^2.2"
+sqlalchemy     = "^2.0"
+duckdb         = "^0.10"
+duckdb-engine  = "^0.10"
+python-dotenv  = "^1.0"
+tqdm           = "^4.66"
