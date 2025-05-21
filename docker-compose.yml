@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    command: server /data --console-address ":9001"
+    environment:
+      # берёт из .env, иначе значения по умолчанию
+      MINIO_ROOT_USER:     ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Web-консоль
+    volumes:
+      - ./minio_data:/data   # локальная папка с объектами

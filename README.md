@@ -55,5 +55,6 @@ assignment/
 - python install (`python3.12`)
 - installing dependencies: `poetry install`
 - install docker
+- `docker compose up -d minio` -> http://localhost:9001 (local)
 - run collector.py  
 - ...
