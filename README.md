@@ -25,6 +25,8 @@ yet which exactly.
 ```text
 github-commit-pipeline/
 │
+├── .gitignore
+├── .env.example
 ├── docker-compose.yml          # MinIO and Airflow
 ├── requirements_airflow.txt    # Airflow libs
 ├── pyproject.toml              # poetry manifest (duckdb, minio, etc.)
@@ -41,3 +43,15 @@ github-commit-pipeline/
 │
 └── scripts/
     └── run_collector.sh        # single local run
+```
+
+## Quick Start (Ununtu)
+- `git clone https://github.com/demonzver/assignment.git`
+- `cd assignment`
+- `cp .env.example .env` 
+- edit .env
+- poetry:  `curl -sSL https://install.python-poetry.org | python3 -`
+- python install (`python3.12`)
+- installing dependencies: `poetry install`
+- run collector.py  
+- ...
