@@ -20,6 +20,9 @@ yet which exactly.
 - **docker-compose** - deployment MinIO + Airflow
 - **Apache Airflow** - scheduled execution of the commit-collector pipeline
 
+## Notes
+- [GitHub Rate limits](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28): 
+All of these requests count towards your personal rate limit of 5,000 requests per hour.
 
 ## Project structure
 ```text
@@ -33,10 +36,12 @@ assignment/
 │
 ├── src/
 │   └── github_commit_pipeline/
-│       ├── __init__.py         
+│       ├── __init__.py      
+│       ├── topics.yml          # DuckDB DDL   
 │       ├── schema.py           # DuckDB DDL
 │       ├── storage.py          # MinIO helpers
-│       ├── collector.py        # fetch commits
+│       ├── repo_loader.py      # New repos
+│       ├── collector.py        # fetch commits (new and existing repos)
 │       └── restore.py          # restore repo state for a given SHA
 │
 ├── dags/
@@ -56,7 +61,9 @@ assignment/
 - installing dependencies: `poetry install`
 - install docker
 - `docker compose up -d minio` -> http://localhost:9001 (local)
-- run collector.py  
+- run collector.py: `./scripts/load_repos.sh`
 - `sudo snap install duckdb`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 50"`
+- ...
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 5"`
 - ...

@@ -10,3 +10,4 @@ minio         = "^7.2"   # S3-like storage
 sqlalchemy    = "^2.0"
 duckdb-engine = "^0.10"
 python-dotenv = "^1.0"
+pyyaml = "^6.0"
