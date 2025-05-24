@@ -63,7 +63,7 @@ assignment/
 - install docker
 - `docker compose up -d` -> http://localhost:9001 (local Minio) / http://localhost:8080 (local Airflow) 
 - `sudo snap install duckdb`
-- `mkdir -p data`
+- `chown -R $(id -u):$(id -g) data`
 - run repo_loader.py: `poetry run python -m github_commit_pipeline.repo_loader`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
 - run collector.py: `poetry run python -m github_commit_pipeline.collector` (parallel processing)
