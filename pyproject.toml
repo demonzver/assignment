@@ -4,10 +4,10 @@ version = "0.1.0"
 packages = [{ include = "github_commit_pipeline", from = "src" }]
 
 [tool.poetry.dependencies]
-python        = ">=3.12,<3.14"
+python = ">=3.11,<3.12"
 PyGithub      = "^2.3"   # GitHub API
 minio         = "^7.2"   # S3-like storage
-sqlalchemy    = "^2.0"
+sqlalchemy = "1.4.51"
 duckdb-engine = "^0.10"
 python-dotenv = "^1.0"
 pyyaml = "^6.0"

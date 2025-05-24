@@ -37,16 +37,16 @@ DEFAULT_NEW_LIMIT = 50
 # Env / clients
 load_dotenv()
 TOKEN = os.getenv("GITHUB_TOKEN")
-DUCK_PATH = os.getenv("DUCKDB_PATH", "./data/commits.duckdb")
+DB_PATH = os.getenv("DB_PATH", "./data/commits.duckdb")
 
 
 # Ensure the directory for the DuckDB file exists
-Path(DUCK_PATH).parent.mkdir(parents=True, exist_ok=True)
+Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
 
 if not TOKEN:
     raise RuntimeError("GITHUB_TOKEN not set in .env")
 
-engine = create_engine(f"duckdb:///{DUCK_PATH}")
+engine = create_engine(f"duckdb:///{DB_PATH}")
 metadata.create_all(engine)
 gh = Github(TOKEN)
 

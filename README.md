@@ -31,24 +31,25 @@ assignment/
 ├── .gitignore
 ├── .env.example
 ├── docker-compose.yml          # MinIO and Airflow
-├── requirements_airflow.txt    # Airflow libs
 ├── pyproject.toml              # poetry manifest (duckdb, minio, etc.)
 │
 ├── src/
 │   └── github_commit_pipeline/
 │       ├── __init__.py      
-│       ├── topics.yml          # DuckDB DDL   
+│       ├── topics.yml          # repos topics and config  
 │       ├── schema.py           # DuckDB DDL
 │       ├── storage.py          # MinIO helpers
 │       ├── repo_loader.py      # New repos
 │       ├── collector.py        # fetch commits (new and existing repos)
-│       └── restore.py          # restore repo state for a given SHA
+│       └── restore.py          # restore repo state for a given repo name/SHA
 │
 ├── dags/
-│   └── commit_collector.py     # Airflow dag calls collector.py
+│   └── commit_collector.py     # Airflow dag
 │
 └── scripts/
-    └── run_collector.sh        # single local run
+    ├── run_repo_loader.sh      # adds new repositories to DuckDB
+    ├── run_collector.sh        # collects commits for both new repos and updates existing ones
+    └── run_restore.sh          # restores the workspace to a given commit’s before/after state
 ```
 
 ## Quick Start (Ununtu)
@@ -60,11 +61,22 @@ assignment/
 - python install (`python3.12`)
 - installing dependencies: `poetry install`
 - install docker
-- `docker compose up -d minio` -> http://localhost:9001 (local)
+- `docker compose up -d` -> http://localhost:9001 (local Minio) / http://localhost:8080 (local Airflow) 
 - `sudo snap install duckdb`
-- run repo_loader.py: `./scripts/run_repo_loader.sh`
+- run repo_loader.py: `poetry run python -m github_commit_pipeline.repo_loader`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
-- run collector.py: `./scripts/run_collector.sh`
+- run collector.py: `poetry run python -m github_commit_pipeline.collector` (parallel processing)
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 20"`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commit_files limit 20"`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM last_commits limit 20"`
+- `./scripts/run_restore.sh <owner/repo> <commit_sha> [before|after] [dest_dir]`
+
+
+## Airflow (optional)
+- `mkdir -p logs dags data scripts`
+- `chown -R $(id -u):$(id -g) logs dags data scripts`
+- `echo "AIRFLOW_UID=$(id -u)" >> .env`
+- `docker compose up -d postgres`
+- `docker compose run --rm airflow db init`
+- `docker compose run --rm airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com`
+- `docker compose up -d`

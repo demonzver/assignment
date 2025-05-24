@@ -17,7 +17,7 @@ from botocore.config import Config
 LOG = logging.getLogger(__name__)
 
 # Config
-S3_ENDPOINT = os.getenv("S3_ENDPOINT", "http://localhost:9000")
+S3_ENDPOINT = os.getenv("S3_ENDPOINT_URL") or os.getenv("S3_ENDPOINT") or "http://localhost:9000"
 S3_BUCKET = os.getenv("S3_BUCKET", "commit-data")
 S3_PREFIX = os.getenv("S3_PREFIX", "blobs/")
 

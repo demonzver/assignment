@@ -1,0 +1,6 @@
+pgdata
+logs
+minio_data
+.dockerignore
+.env
+.env.*
