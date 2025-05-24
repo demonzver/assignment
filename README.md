@@ -63,14 +63,32 @@ assignment/
 - install docker
 - `docker compose up -d` -> http://localhost:9001 (local Minio) / http://localhost:8080 (local Airflow) 
 - `sudo snap install duckdb`
+- `mkdir -p data`
 - run repo_loader.py: `poetry run python -m github_commit_pipeline.repo_loader`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
 - run collector.py: `poetry run python -m github_commit_pipeline.collector` (parallel processing)
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 20"`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commit_files limit 20"`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM last_commits limit 20"`
-- `./scripts/run_restore.sh <owner/repo> <commit_sha> [before|after] [dest_dir]`
+- `poetry run python -m github_commit_pipeline.restore <owner/repo> <commit_sha> [before|after] [dest_dir]`
 
+
+## Restore example
+```text
+poetry run python -m github_commit_pipeline.restore \
+    --repo kamranahmedse/developer-roadmap \
+    --sha 78e62f9de5bfb2fe884d85294d6d77f3d9b65f62 \
+    --direction after \
+    --out ./restored/kamranahmedse/developer-roadmap/after
+```
+
+```text
+poetry run python -m github_commit_pipeline.restore \
+    --repo kamranahmedse/developer-roadmap \
+    --sha 78e62f9de5bfb2fe884d85294d6d77f3d9b65f62 \
+    --direction before \
+    --out ./restored/kamranahmedse/developer-roadmap/before
+```
 
 ## Airflow (optional)
 - `mkdir -p logs dags data scripts`

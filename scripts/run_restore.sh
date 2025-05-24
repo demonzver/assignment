@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
-# Restore a commit snapshot from S3 to the local filesystem.
-# Usage: ./scripts/run_restore.sh <owner/repo> <commit_sha> [before|after] [dest_dir]
+# Restore an entire commit snapshot (before/after) from MinIO.
+# Usage:
+#   ./scripts/run_restore.sh <repo> <sha> <before|after> <out_dir>
 
 set -euo pipefail
 
-REPO="${1:?owner/repo is required}"
-SHA="${2:?commit sha is required}"
-STATE="${3:-after}"
-OUTDIR="${4:-./restored}"
+if [[ $# -ne 4 ]]; then
+  echo "Usage: $0 <repo> <sha> <before|after> <out_dir>"
+  exit 1
+fi
 
-poetry run python -m github_commit_pipeline.restore \
+REPO="$1"
+SHA="$2"
+DIRECTION="$3"
+OUT_DIR="$4"
+
+poetry run python -m github_commit_pipeline.restore_folder \
   --repo "$REPO" \
-  --sha  "$SHA"  \
-  --state "$STATE" \
-  --out "$OUTDIR"
+  --sha "$SHA" \
+  --direction "$DIRECTION" \
+  --out "$OUT_DIR"
