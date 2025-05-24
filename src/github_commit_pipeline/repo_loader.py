@@ -1,10 +1,10 @@
 """
-Load NEW repositories for each keyword defined in topics.yml.
+Load NEW repositories for each topic defined in topics.yml.
 
 * Reads a YAML file with a list of topics/keywords.
 * For every keyword, fetches the most-starred public repos
   that satisfy stars >= STAR_THRESHOLD.
-* Inserts up to NEW_LIMIT_PER_TOPIC unseen repositories into the
+* Inserts up to NEW_LIMIT per topic unseen repositories into the
   `repositories` table (DuckDB). Existing rows are skipped.
 
 Usage
@@ -26,21 +26,22 @@ from sqlalchemy import create_engine, insert, select, update
 
 from github_commit_pipeline.schema import metadata, repositories
 
-# --------------------------------------------------------------------------- #
-#  Configuration                                                              #
-# --------------------------------------------------------------------------- #
+#  Configuration
 CONFIG_FILE = Path(__file__).resolve().parent / "topics.yml"
 
 # fallback defaults (in case fields absent in yaml)
 DEFAULT_STAR_THRESHOLD = 1000
 DEFAULT_NEW_LIMIT = 50
 
-# --------------------------------------------------------------------------- #
-#  Env / clients                                                              #
-# --------------------------------------------------------------------------- #
+
+# Env / clients
 load_dotenv()
 TOKEN = os.getenv("GITHUB_TOKEN")
 DUCK_PATH = os.getenv("DUCKDB_PATH", "./data/commits.duckdb")
+
+
+# Ensure the directory for the DuckDB file exists
+Path(DUCK_PATH).parent.mkdir(parents=True, exist_ok=True)
 
 if not TOKEN:
     raise RuntimeError("GITHUB_TOKEN not set in .env")
@@ -50,9 +51,7 @@ metadata.create_all(engine)
 gh = Github(TOKEN)
 
 
-# --------------------------------------------------------------------------- #
-#  Helpers                                                                    #
-# --------------------------------------------------------------------------- #
+# Helpers
 def load_config(path: Path) -> tuple[list[str], int, int]:
     if not path.is_file():
         raise FileNotFoundError(f"{path} not found")
@@ -79,9 +78,7 @@ def merge_topics(cur: str | None, new_kw: str) -> str:
     return ",".join(sorted(parts))
 
 
-# --------------------------------------------------------------------------- #
-#  Main loader                                                                #
-# --------------------------------------------------------------------------- #
+# Main
 def main() -> None:
     keywords, star_threshold, limit_per_topic = load_config(CONFIG_FILE)
 

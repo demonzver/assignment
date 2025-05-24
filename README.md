@@ -61,9 +61,10 @@ assignment/
 - installing dependencies: `poetry install`
 - install docker
 - `docker compose up -d minio` -> http://localhost:9001 (local)
-- run collector.py: `./scripts/load_repos.sh`
 - `sudo snap install duckdb`
-- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 50"`
-- ...
-- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 5"`
-- ...
+- run repo_loader.py: `./scripts/run_repo_loader.sh`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
+- run collector.py: `./scripts/run_collector.sh`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 20"`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commit_files limit 20"`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM last_commits limit 20"`

@@ -36,7 +36,6 @@ commits = Table(
     Column("files_changed", Integer),
     Column("lines_added", Integer),
     Column("lines_removed", Integer),
-    Column("repo_stars", Integer),
     Column("collected_at", DateTime),
 )
 Index("idx_commits_repo_ts", commits.c.repository, commits.c.commit_timestamp)
