@@ -55,6 +55,7 @@ services:
       - ./src:/opt/airflow/src
       - ./.env:/opt/airflow/.env
       - ./data:/opt/airflow/data
+      - ./data_db:/opt/airflow/data_db
     ports:
       - "8080:8080"
     command: webserver
@@ -81,4 +82,5 @@ services:
       - ./src:/opt/airflow/src
       - ./.env:/opt/airflow/.env
       - ./data:/opt/airflow/data
+      - ./data_db:/opt/airflow/data_db
     command: scheduler
