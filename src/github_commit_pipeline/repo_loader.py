@@ -37,7 +37,7 @@ DEFAULT_NEW_LIMIT = 50
 # Env / clients
 load_dotenv()
 TOKEN = os.getenv("GITHUB_TOKEN")
-DB_PATH = os.getenv("DB_PATH", "./data/commits.duckdb")
+DB_PATH = os.getenv("DB_PATH", "./data_db/commits.duckdb")
 
 
 # Ensure the directory for the DuckDB file exists

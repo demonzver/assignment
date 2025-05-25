@@ -61,9 +61,9 @@ assignment/
 - python install (`python3.12`)
 - installing dependencies: `poetry install`
 - install docker
-- `docker compose up -d` -> http://localhost:9001 (local Minio) / http://localhost:8080 (local Airflow) 
 - `sudo snap install duckdb`
-- `chown -R $(id -u):$(id -g) data`
+- `mkdir -p data`
+- `docker compose up -d minio` -> http://localhost:9001 (local Minio)
 - run repo_loader.py: `poetry run python -m github_commit_pipeline.repo_loader`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
 - run collector.py: `poetry run python -m github_commit_pipeline.collector` (parallel processing)
@@ -97,4 +97,4 @@ poetry run python -m github_commit_pipeline.restore \
 - `docker compose up -d postgres`
 - `docker compose run --rm airflow db init`
 - `docker compose run --rm airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com`
-- `docker compose up -d`
+- `docker compose up -d` http://localhost:8080 (local Airflow) 
