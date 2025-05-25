@@ -66,6 +66,7 @@ assignment/
 - `docker compose up -d minio` -> http://localhost:9001 (local Minio)
 - run repo_loader.py: `poetry run python -m github_commit_pipeline.repo_loader`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM repositories limit 20"`
+- `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT count(*) FROM repositories"`
 - run collector.py: `poetry run python -m github_commit_pipeline.collector` (parallel processing)
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commits limit 20"`
 - `duckdb "${DUCKDB_PATH:-./data/commits.duckdb}" -c "SELECT * FROM commit_files limit 20"`
