@@ -1,5 +1,5 @@
-star_threshold: 100000       # minimal stars a repo must have
-new_limit_per_topic: 5      # how many *new* repos per keyword per run
+star_threshold: 10000       # minimal stars a repo must have
+new_limit_per_topic: 100      # how many *new* repos per keyword per run
 
 topics:                      # list of keywords / topics
   - spark
