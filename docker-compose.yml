@@ -47,7 +47,7 @@ services:
       - _AIRFLOW_WWW_USER_PASSWORD=${_AIRFLOW_WWW_USER_PASSWORD}
       - PYTHONPATH=/opt/airflow/src
       - S3_ENDPOINT_URL=http://minio:9000
-      - DB_PATH=/opt/airflow/data/commits.duckdb
+      - DB_PATH=/opt/airflow/data_db/commits.duckdb
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
@@ -73,7 +73,7 @@ services:
       - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW__WEBSERVER__SECRET_KEY}
       - PYTHONPATH=/opt/airflow/src
       - S3_ENDPOINT_URL=http://minio:9000
-      - DB_PATH=/opt/airflow/data/commits.duckdb
+      - DB_PATH=/opt/airflow/data_db/commits.duckdb
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
