@@ -46,7 +46,7 @@ NOW_UTC = datetime.now(UTC)
 SINCE = NOW_UTC - timedelta(days=HISTORY_DAYS)
 COLLECT_CUTOFF = NOW_UTC - timedelta(hours=COLLECT_INTERVAL_HOURS)
 
-# ───────────────────────────────
+
 # Logging
 logging.basicConfig(
     level=logging.INFO,
