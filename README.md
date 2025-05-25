@@ -48,7 +48,7 @@ assignment/
 │
 └── scripts/
     ├── run_repo_loader.sh      # adds new repositories to DuckDB
-    ├── run_collector.sh        # collects commits for both new repos and updates existing ones
+    ├── run_collector.sh        # collects commits for both new repos and updates existing ones, limit on the number of repositories per run, latest and most starred ones are processed first (~window)
     └── run_restore.sh          # restores the workspace to a given commit’s before/after state
 ```
 

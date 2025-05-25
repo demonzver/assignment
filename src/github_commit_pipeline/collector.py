@@ -39,8 +39,14 @@ HISTORY_DAYS = int(os.getenv("HISTORY_DAYS", "7"))
 MAX_COMMITS_PER_REPO = int(os.getenv("MAX_COMMITS_PER_REPO", "100"))
 MAX_WORKERS = int(os.getenv("MAX_WORKERS", "4"))
 
-SINCE = datetime.now(UTC) - timedelta(days=HISTORY_DAYS)
+# Throttling & batch size
+COLLECT_INTERVAL_HOURS = int(os.getenv("COLLECT_INTERVAL_HOURS", "24"))
+MAX_REPOS_PER_RUN = int(os.getenv("MAX_REPOS_PER_RUN", "100"))
+NOW_UTC = datetime.now(UTC)
+SINCE = NOW_UTC - timedelta(days=HISTORY_DAYS)
+COLLECT_CUTOFF = NOW_UTC - timedelta(hours=COLLECT_INTERVAL_HOURS)
 
+# ───────────────────────────────
 # Logging
 logging.basicConfig(
     level=logging.INFO,
@@ -55,12 +61,30 @@ metadata.create_all(engine)
 
 # Helpers
 def fetch_repositories() -> list[Tuple[str, int]]:
-    """Return list of full_name, stars ordered by star count"""
+    """
+    Return at most MAX_REPOS_PER_RUN repositories that
+    • have never been collected; or
+    • were collected earlier than COLLECT_CUTOFF.
+
+    Ordered by star count (most popular first).
+    """
     with engine.connect() as conn:
-        rows = conn.execute(
-            select(repositories.c.full_name, repositories.c.stars)
-            .order_by(repositories.c.stars.desc())
-        ).fetchall()
+        rows = (
+            conn.execute(
+                select(repositories.c.full_name, repositories.c.stars)
+                .outerjoin(
+                    last_commits,
+                    repositories.c.full_name == last_commits.c.repository,
+                )
+                .where(
+                    (last_commits.c.last_collected_at.is_(None))
+                    | (last_commits.c.last_collected_at < COLLECT_CUTOFF)
+                )
+                .order_by(repositories.c.stars.desc())
+                .limit(MAX_REPOS_PER_RUN)
+            )
+            .fetchall()
+        )
     return [(r.full_name, r.stars or 0) for r in rows]
 
 
