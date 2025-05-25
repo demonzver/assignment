@@ -38,7 +38,7 @@ client = Minio(
 )
 
 
-# ──────────────────────────── FUNCTIONS ────────────────────────────────────
+# FUNCTIONS
 def restore_folder(repo: str, sha: str, direction: str, out_dir: str) -> None:
     """
     Download every object whose key starts with
@@ -81,7 +81,7 @@ def restore_folder(repo: str, sha: str, direction: str, out_dir: str) -> None:
     print(f"Restored {downloaded} files to {out_dir}")
 
 
-# ────────────────────────────── CLI ────────────────────────────────────────
+# CLI
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Restore before/after snapshot of a commit."
