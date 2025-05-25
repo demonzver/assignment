@@ -35,9 +35,9 @@ load_dotenv()
 
 DB_PATH = os.getenv("DB_PATH", "./data_db/commits.duckdb")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-HISTORY_DAYS = int(os.getenv("HISTORY_DAYS", "7"))
-MAX_COMMITS_PER_REPO = int(os.getenv("MAX_COMMITS_PER_REPO", "1000"))
-MAX_WORKERS = int(os.getenv("MAX_WORKERS", "6"))
+HISTORY_DAYS = int(os.getenv("HISTORY_DAYS", "1"))
+MAX_COMMITS_PER_REPO = int(os.getenv("MAX_COMMITS_PER_REPO", "100"))
+MAX_WORKERS = int(os.getenv("MAX_WORKERS", "4"))
 
 SINCE = datetime.now(UTC) - timedelta(days=HISTORY_DAYS)
 
