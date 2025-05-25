@@ -6,7 +6,7 @@ default_args = {
     "owner": "ml-team",
     "depends_on_past": False,
     "catchup": False,
-    "max_active_runs": 1,
+    "concurrency": 1,
 }
 
 with DAG(
