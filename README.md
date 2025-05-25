@@ -91,8 +91,8 @@ poetry run python -m github_commit_pipeline.restore \
 ```
 
 ## Airflow (optional)
-- `mkdir -p logs dags data scripts`
-- `chown -R $(id -u):$(id -g) logs dags data scripts`
+- `mkdir -p logs dags data`
+- `sudo chown -R $(id -u):$(id -g) logs dags data scripts`
 - `echo "AIRFLOW_UID=$(id -u)" >> .env`
 - `docker compose up -d postgres`
 - `docker compose run --rm airflow db init`
