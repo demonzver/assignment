@@ -98,4 +98,5 @@ poetry run python -m github_commit_pipeline.restore \
 - `docker compose up -d postgres`
 - `docker compose run --rm airflow db init`
 - `docker compose run --rm airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com`
+- `docker compose build`
 - `docker compose up -d` http://localhost:8080 (local Airflow) 
